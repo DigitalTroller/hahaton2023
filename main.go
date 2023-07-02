@@ -30,8 +30,18 @@ func main() {
 	categories.Use(middlewares.JwtAuthMiddleware())
 	{
 		books := categories.Group("/books")
-		books.GET("/:id", models.GetBookByID)
 		books.GET("", models.GetAllBooks)
+		books.GET("/:id", models.GetBookByID)
+		books.GET("/search", controllers.SearchQueryBook)
+
+		//videos := categories.Group("/videos")
+		//videos.GET("", models.GetAllVideos)
+	}
+
+	profile := r.Group("/profile")
+	profile.Use(middlewares.JwtAuthMiddleware())
+	{
+		profile.PUT("/image_change", controllers.ChangeImage)
 	}
 
 	//protected := r.Group("/api/admin")
